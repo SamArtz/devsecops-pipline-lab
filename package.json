@@ -1,0 +1,10 @@
+{
+  "name": "devsecops-lab-app",
+  "version": "1.0.0",
+  "scripts": {
+    "test": "jest --coverage"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
+}
