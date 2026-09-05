@@ -18,4 +18,3 @@ module.exports = {
   validateRange
 };
 
-const apiKey = "sk_live_51Hxxxxxxxxxxxxxxxxxxxxxxxxx"
