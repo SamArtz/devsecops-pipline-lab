@@ -17,3 +17,5 @@ module.exports = {
   getUserName,
   validateRange
 };
+
+const apiKey = "sk_live_51Hxxxxxxxxxxxxxxxxxxxxxxxxx"
