@@ -1,0 +1,4 @@
+*.zip
+*.tfplan
+terraform.tfvars
+*.auto.tfvars
