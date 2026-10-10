@@ -2,3 +2,5 @@
 *.tfplan
 terraform.tfvars
 *.auto.tfvars
+pedido.json
+incompleto.json

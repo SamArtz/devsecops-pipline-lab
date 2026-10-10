@@ -8,13 +8,15 @@ Desde la terminal, en la raíz del repositorio:
 bash scripts/setup-dev.sh
 ```
 
-El script instala las dependencias exactas del lockfile en una carpeta auxiliar `.onboarding`, junto al repositorio. Descarga Terraform 1.13.5, verifica su checksum oficial y valida `enviroments/dev` sin conectar el backend AWS. Ejecuta las cuatro pruebas Jest y la demo Saga con trazas en consola. Las compensaciones de Saga son fallos simulados esperados.
+El script instala las dependencias exactas del lockfile en el repositorio con `npm ci`. Descarga Terraform 1.13.5, verifica su checksum oficial y valida `enviroments/dev` y `api-gateway` sin conectar el backend AWS. Ejecuta las pruebas Jest, Lambda, mensajería y Terraform con AWS simulado, además de la demo Saga con trazas en consola. Las compensaciones de Saga son fallos simulados esperados.
 
-Puedes elegir otra carpeta auxiliar mediante `DEVSECOPS_SETUP_DIR` (ruta absoluta). Vuelve a ejecutar el script después de editar las fuentes para actualizar las copias usadas por las pruebas.
+Las herramientas, caches y datos locales de Terraform se guardan en `.onboarding`, junto al repositorio. Puedes elegir otra carpeta mediante `DEVSECOPS_SETUP_DIR` (ruta absoluta). Las pruebas usan directamente las fuentes del checkout.
 
-## Limitación del repositorio
+## Dependencias y laboratorios
 
-`package.json` contiene marcadores de un conflicto de merge. Por eso `npm ci` directamente en el checkout falla. La carpeta auxiliar genera su manifest a partir de `package-lock.json` y copia las fuentes sin modificarlas; valida solamente las dependencias del lockfile. El conflicto debe resolverse en una tarea de código separada. No se validó la rama de dependencias de CloudWatch.
+El conflicto de `package.json` fue resuelto conservando las dependencias de ambas ramas y agregando SNS y KafkaJS. El lockfile actualizado permite instalar en la raíz desde PowerShell con `npm ci`. La carpeta auxiliar antigua con copias de fuentes ya no es necesaria.
+
+Consulta [Laboratorio 12](LABORATORIO12.md) para desplegar el fan-out en tu AWS, ejecutar Kafka local opcionalmente y obtener las capturas y la evidencia de limpieza.
 
 El script no despliega recursos. Las integraciones con AWS y SonarQube requieren configuración y autenticación adicionales. No incluyas credenciales en Git.
 

@@ -2,28 +2,35 @@
   "name": "devsecops-lab-app",
   "version": "1.0.0",
   "scripts": {
-    "test": "jest --coverage"
+    "test": "jest --coverage",
+    "test:lambda": "npm --prefix lambda test",
+    "test:messaging": "node --test tests/messaging.test.cjs",
+    "fanout": "node sns-fanout-consumer.js",
+    "kafka:produce": "node kafka-producer.js",
+    "kafka:consume": "node kafka-consumer.js"
   },
   "devDependencies": {
     "jest": "^29.7.0"
   },
   "dependencies": {
-<<<<<<< Updated upstream
+    "@aws-sdk/client-cloudwatch": "^3.1136.0",
+    "@aws-sdk/client-cloudwatch-logs": "^3.1136.0",
     "@aws-sdk/client-dynamodb": "^3.1141.0",
     "@aws-sdk/client-eventbridge": "^3.1141.0",
+    "@aws-sdk/client-sns": "3.1141.0",
     "@aws-sdk/client-sqs": "^3.1141.0",
     "@aws-sdk/lib-dynamodb": "^3.1141.0",
     "@opentelemetry/api": "^1.9.1",
-    "@opentelemetry/sdk-node": "^0.222.0",
-    "@opentelemetry/sdk-trace-base": "^2.11.0"
-=======
-    "@aws-sdk/client-cloudwatch": "^3.1136.0",
-    "@aws-sdk/client-cloudwatch-logs": "^3.1136.0",
-    "@opentelemetry/api": "^1.9.1",
     "@opentelemetry/resources": "^2.11.0",
     "@opentelemetry/sdk-node": "^0.222.0",
+    "@opentelemetry/sdk-trace-base": "^2.11.0",
     "@opentelemetry/sdk-trace-node": "^2.11.0",
-    "@opentelemetry/semantic-conventions": "^1.43.0"
->>>>>>> Stashed changes
+    "@opentelemetry/semantic-conventions": "^1.43.0",
+    "kafkajs": "2.2.4"
+  },
+  "jest": {
+    "testMatch": [
+      "<rootDir>/tests/**/*.test.js"
+    ]
   }
 }

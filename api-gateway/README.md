@@ -29,9 +29,9 @@ npm --prefix lambda test
 
 Si utilizaste la preparación cloud, Terraform está en `/workspace/.onboarding/bin`; allí puedes activarlo con `export PATH="/workspace/.onboarding/bin:$PATH"`. Una instalación local normal no necesita esa ruta.
 
-`npm --prefix lambda test` funciona independientemente del conflicto preexistente de `package.json` en la raíz. No necesitas ejecutar `npm install` para estas pruebas ni dentro de `lambda/`.
+`npm --prefix lambda test` no necesita instalar dependencias dentro de `lambda/`. El conflicto anterior de `package.json` en la raíz se resolvió al preparar el Laboratorio 12; para los scripts de mensajería ejecuta `npm ci` en la raíz.
 
-Comprueba que el usuario IAM existente coincida con el valor que pasarás al plan. El documento usa `devsecops-lab-user`, mientras que algunos archivos anteriores del repositorio usan `github-actions-devsecops`. No crees otro usuario para resolver un nombre incorrecto.
+Comprueba que el usuario IAM existente coincida con el valor que pasarás al plan. El documento usa `devsecops-lab-user`, pero en tu cuenta confirmaste `github-actions-devsecops`, ahora el valor por defecto del código. No crees otro usuario para resolver un nombre incorrecto.
 
 ## 2. Desplegar el Laboratorio 11
 
@@ -43,12 +43,12 @@ unset TF_DATA_DIR
 terraform init
 terraform validate
 terraform test # Opcional: requiere Terraform >= 1.7; usa AWS simulado
-terraform plan -var='iam_user_name=devsecops-lab-user' -out=lab11.tfplan
+terraform plan -var='iam_user_name=github-actions-devsecops' -out=lab11.tfplan
 terraform apply lab11.tfplan
 terraform output
 ```
 
-Si tu usuario real es `github-actions-devsecops`, sustituye el nombre en el comando `plan`. El usuario que despliega necesita permisos IAM para gestionar los roles y adjuntar las políticas, además de los permisos Lambda, API Gateway y SQS. Terraform incluye las políticas del documento y la espera de propagación. Esa espera no garantiza la propagación en todos los casos.
+Si usas otra cuenta, sustituye el nombre por un usuario existente. El usuario que despliega necesita permisos IAM para gestionar los roles y adjuntar las políticas, además de los permisos Lambda, API Gateway y SQS. Terraform incluye las políticas del documento y la espera de propagación. Esa espera no garantiza la propagación en todos los casos.
 
 El plan crea infraestructura en `us-east-1` y adjunta políticas al usuario indicado. Revísalo antes del `apply`. Los nombres son los del laboratorio; si ya existen recursos con esos nombres, revisa el estado previo antes de intentar desplegar otra vez. No cambies ni borres recursos de laboratorios anteriores.
 
@@ -105,6 +105,8 @@ No confundas el **Message ID de SQS** con `orderId`; son distintos. No pulses **
 Entrega los dos archivos `lambda/*.js`, los tres archivos `.tf` de `api-gateway/` y las tres capturas anteriores. Los ZIP se generan automáticamente con Terraform y no se suben a Git. El código está en el repositorio; las capturas deben mostrar tu ejecución real en AWS.
 
 **Conserva la API, las funciones Lambda, la cola y el estado Terraform para el Laboratorio 12. No ejecutes `terraform destroy` al terminar el Laboratorio 11.**
+
+El código actual ya incluye el fan-out de ese laboratorio. Continúa con [la guía del Laboratorio 12](../LABORATORIO12.md); la limpieza se realiza después de reunir todas las evidencias.
 
 ## Diagnóstico rápido
 
