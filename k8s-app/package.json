@@ -1,0 +1,9 @@
+{
+  "name": "k8s-app",
+  "version": "1.0.0",
+  "private": true,
+  "type": "commonjs",
+  "dependencies": {
+    "kafkajs": "2.2.4"
+  }
+}

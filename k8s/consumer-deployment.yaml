@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: billing-consumer
+  labels:
+    app: billing-consumer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: billing-consumer
+  template:
+    metadata:
+      labels:
+        app: billing-consumer
+    spec:
+      terminationGracePeriodSeconds: 30
+      securityContext:
+        runAsNonRoot: true
+        fsGroup: 10001
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: billing-consumer
+          image: devsecops-lab/k8s-app:1.0
+          imagePullPolicy: IfNotPresent
+          command: [node, kafka-consumer.js]
+          env:
+            - name: KAFKA_BROKERS
+              value: kafka:9092
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              cpu: 500m
+              memory: 256Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop: [ALL]
+          readinessProbe:
+            exec:
+              command: [test, -f, /tmp/billing-consumer-ready]
+            periodSeconds: 5
+          volumeMounts:
+            - name: tmp
+              mountPath: /tmp
+      volumes:
+        - name: tmp
+          emptyDir: {}
